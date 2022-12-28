@@ -88,8 +88,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                  GoRouter.of(context).goNamed(RouteCon.home);
+
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => HomeScreen()));
                 },
                 child: Text('Home')),
             TextButton(

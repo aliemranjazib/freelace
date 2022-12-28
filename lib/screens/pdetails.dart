@@ -1,9 +1,11 @@
+import 'dart:html';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:marketplace/model/product_model.dart';
 import 'package:marketplace/screens/TnC.dart';
 import 'package:marketplace/screens/data_controller.dart';
@@ -13,6 +15,9 @@ import 'package:marketplace/screens/privacy.dart';
 import 'package:marketplace/screens/product_image_picker.dart';
 import 'package:marketplace/screens/product_overview.dart';
 import 'package:marketplace/screens/user_agreement.dart';
+import 'package:share_plus/share_plus.dart';
+
+import '../app_routes/app_route.dart';
 
 class Detail extends StatefulWidget {
   final String pId;
@@ -83,8 +88,7 @@ class _DetailState extends State<Detail> {
                     backgroundColor: Color(0xff252B5C),
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    GoRouter.of(context).goNamed(RouteCon.home);
                   },
                   child: Text('Home'),
                 ),
@@ -93,10 +97,7 @@ class _DetailState extends State<Detail> {
                     backgroundColor: Color(0xff252B5C),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProductImagePicker()));
+                    GoRouter.of(context).goNamed(RouteCon.addproduct);
                   },
                   child: Text('Add Product'),
                 ),
@@ -116,7 +117,9 @@ class _DetailState extends State<Detail> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xff252B5C),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      GoRouter.of(context).goNamed(RouteCon.profile);
+                    },
                     child: Text('Profile'))
               ],
             ),
@@ -319,7 +322,14 @@ class _DetailState extends State<Detail> {
                             ),
                           ],
                         ),
-                      )
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            var url = window.location.href;
+                            print(url);
+                            Share.share('$url');
+                          },
+                          child: Text("Share Product"))
                     ]),
               ),
             ),

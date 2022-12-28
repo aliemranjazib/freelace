@@ -42,6 +42,8 @@ dependencies:
   go_router: ^6.0.0
   printing: ^5.9.3
   pdf: ^3.8.4
+  peanut: ^4.3.0
+  share_plus: ^6.3.0
 
 
 dev_dependencies:
