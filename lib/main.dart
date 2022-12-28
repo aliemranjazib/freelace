@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:marketplace/app_routes/app_route.dart';
 import 'package:marketplace/screens/get_started_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:marketplace/screens/home_screen.dart';
@@ -34,20 +35,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    User? firebaseUser = FirebaseAuth.instance.currentUser;
-    Widget widget;
-    if (firebaseUser != null) {
-      print(firebaseUser.email);
-      widget = HomeScreen();
-    } else {
-      widget = LoginPage();
-    }
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Login',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: widget);
+    // User? firebaseUser = FirebaseAuth.instance.currentUser;
+    // Widget widget;
+    // if (firebaseUser != null) {
+    //   // print(firebaseUser.email);
+    //   widget = HomeScreen();
+    // } else {
+    //   widget = LoginPage();
+    // }
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'eagree',
+      routerConfig: AppRoutes().router,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+    );
   }
 }

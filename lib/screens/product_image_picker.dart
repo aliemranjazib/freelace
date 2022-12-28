@@ -35,7 +35,7 @@ class _ProductImagePickerState extends State<ProductImagePicker> {
   bool valuesecond = false;
   final Size size = Get.size;
   int myIndex = 0;
-  List<Widget> widgetList = [HomeScreen(), LoginUserProductScreen(), Profile()];
+  List<Widget> widgetList = [HomeScreen(), Profile()];
   String defaultImageUrl =
       'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg';
   String selctFile = '';
@@ -57,7 +57,8 @@ class _ProductImagePickerState extends State<ProductImagePicker> {
   bool isLoading = false;
   GlobalKey<SfSignaturePadState> key = GlobalKey();
   double min = 4.0;
-  Uuid? v;
+  // Uuid? v;
+  var uuid = Uuid();
   Uint8List? img;
   List<Color> colors = [Colors.black];
   Color? c;
@@ -140,6 +141,7 @@ class _ProductImagePickerState extends State<ProductImagePicker> {
       'signature': _itemSignatureController.text,
       'img': imageUrl,
       'user_Id': uid,
+      'productId': uuid.v4(),
       'signUrl': signUrl
     }).then((value) {
       ScaffoldMessenger.of(context)
@@ -148,8 +150,8 @@ class _ProductImagePickerState extends State<ProductImagePicker> {
       setState(() {
         isItemSaved = false;
       });
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: ((context) => LoginUserProductScreen())));
+      // Navigator.of(context).push(
+      //     MaterialPageRoute(builder: ((context) => LoginUserProductScreen())));
     });
 
     return Future.value(uploadTask);
@@ -820,11 +822,11 @@ class _ProductImagePickerState extends State<ProductImagePicker> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.blueDarkColor),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => LoginUserProductScreen()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => LoginUserProductScreen()),
+                    // );
                   },
                 ),
               ),

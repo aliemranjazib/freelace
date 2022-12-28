@@ -32,6 +32,7 @@ class DataController extends GetxController {
     }
   }
 
+  @override
   void onReady() {
     super.onReady();
     getAllProduct();
@@ -99,7 +100,7 @@ class DataController extends GetxController {
             print("Product ID  ${result.id}");
             lodadedProduct.add(
               Product(
-                productId: result.id,
+                productId: result['productId'],
                 signature: result['signature'],
                 userId: result['user_Id'],
                 name: result['name'],

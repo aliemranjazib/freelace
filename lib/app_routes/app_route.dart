@@ -1,62 +1,78 @@
-// import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
+import 'package:marketplace/error_screen.dart';
+import 'package:marketplace/model/product_model.dart';
+import 'package:marketplace/screens/forgot_password.dart';
+import 'package:marketplace/screens/home_screen.dart';
+import 'package:marketplace/screens/login_page.dart';
+import 'package:marketplace/screens/myProfile.dart';
+import 'package:marketplace/screens/pdetails.dart';
+import 'package:marketplace/screens/product_image_picker.dart';
 
-// import 'package:marketplace/main.dart';
-// import 'package:marketplace/model/product_model.dart';
-// import 'package:marketplace/screens/pdetails.dart';
-// import 'package:marketplace/screens/data_controller.dart';
-// import 'package:marketplace/screens/complete_agreement_page.dart';
-// import 'package:marketplace/screens/product_overview.dart';
-// import 'package:marketplace/screens/product_image_picker.dart';
-// import 'package:marketplace/screens/login_user_product_screen.dart';
-// import 'package:marketplace/screens/login_page.dart';
-// import 'package:marketplace/screens/home_screen.dart';
-// import 'package:marketplace/screens/myProfile.dart';
+class RouteCon {
+  static const home = 'home';
+  static const login = 'login';
+  static const profile = 'profile';
+  static const addproduct = 'addproduct';
+  static const productdetail = 'productdetail';
+}
 
-// class RouteCon {
-//   static const signtaurehome = 'signatureehome';
-//   static const profile = 'profile';
-//   static const marketplace = 'marketplace';
-//   static const productDetails = 'productDetails';
-//   static const addproducts = 'addproducts';
-//   static const productOverview = 'productOverview';
-// }
+class AppRoutes {
+  GoRouter router = GoRouter(
+    debugLogDiagnostics: true,
+    routes: [
+      GoRoute(
+        name: RouteCon.home,
+        path: "/",
+        builder: (context, state) {
+          return HomeScreen();
+        },
+        redirect: (context, state) async {
+          User? firebaseUser = FirebaseAuth.instance.currentUser;
 
-// class AppRoutes {
-//   GoRouter router = GoRouter(debugLogDiagnostics: true, routes: [
-//     GoRoute(
-//       name: RouteCon.marketplace,
-//       path: "/",
-//       builder: (context, state) {
-//         return HomeScreen();
-//       },
-//     ),
-//     GoRoute(
-//       name: RouteCon.signtaurehome,
-//       path: "/addproducts",
-//       builder: (context, state) {
-//         return ProductImagePicker();
-//       },
-//     ),
-//     GoRoute(
-//       name: RouteCon.productDetails,
-//       path: "/productDetails",
-//       builder: (context, state) {
-//         return Details(product);
-//       },
-//     ),
-//     GoRoute(
-//       name: RouteCon.productOverview,
-//       path: "/productOverview",
-//       builder: (context, state) {
-//         return ProductOverview(product);
-//       },
-//     ),
-//     GoRoute(
-//       name: RouteCon.profile,
-//       path: "/profile",
-//       builder: (context, state) {
-//         return Profile();
-//       },
-//     ),
-//   ]);
-// }
+          if (firebaseUser != null) {
+            return '/';
+          } else {
+            return '/login';
+          }
+        },
+      ),
+      GoRoute(
+        name: RouteCon.login,
+        path: "/login",
+        builder: (context, state) => LoginPage(),
+      ),
+      GoRoute(
+        name: RouteCon.profile,
+        path: "/profile",
+        builder: (context, state) => Profile(),
+      ),
+      GoRoute(
+        name: RouteCon.addproduct,
+        path: "/addproducts",
+        builder: (context, state) => ProductImagePicker(),
+      ),
+      GoRoute(
+        name: RouteCon.productdetail,
+        path: "/productdetail/view/:productId",
+        builder: (context, state) {
+          // Product sample = state.extra as Product;
+          return Detail(
+            pId: state.params['productId']!,
+            // Product(
+            //     name: state.params['name']!,
+            //     date: state.params['date']!,
+            //     description: state.params['description']!,
+            //     img: state.params['img']!,
+            //     location: state.params['location']!,
+            //     price: state.params['price']!,
+            //     productId: state.params['productId']!,
+            //     signature: state.params['signature']!,
+            //     userId: state.params['userId']!),
+          );
+        },
+      ),
+    ],
+    errorBuilder: (context, state) => const ErrorScreen(),
+  );
+}

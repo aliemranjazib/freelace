@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplace/model/product_model.dart';
@@ -10,371 +14,370 @@ import 'package:marketplace/screens/product_image_picker.dart';
 import 'package:marketplace/screens/product_overview.dart';
 import 'package:marketplace/screens/user_agreement.dart';
 
-class Details extends StatelessWidget {
-  late final Product product;
-  Details(this.product);
+class Detail extends StatefulWidget {
+  final String pId;
+  Detail({super.key, required this.pId});
+
+  @override
+  State<Detail> createState() => _DetailState();
+}
+
+class _DetailState extends State<Detail> {
+  Product? product;
+
+  @override
+  void initState() {
+    super.initState();
+    // getAllProduct();
+    getDate();
+  }
+
+  getDate() async {
+    print("mmmmmmmmmmmm ${widget.pId}");
+    await FirebaseFirestore.instance
+        .collection('productData')
+        // .where('user_Id', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((QuerySnapshot? snapshot) {
+      snapshot!.docs
+          .where((element) => element["productId"] == widget.pId)
+          .forEach((result) {
+        // print("done ${result["productId"]}");
+        if (result.exists) {
+          setState(() {
+            product = Product(
+              productId: result['productId'],
+              signature: result['signature'],
+              userId: result['user_Id'],
+              name: result['name'],
+              price: result['price'],
+              img: result['img'],
+              description: result['description'],
+              location: result['location'],
+              date: result['date'],
+            );
+          });
+        }
+      });
+    });
+    // print(allProducts[0].name);
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = Get.size;
-    // final controller = Get.put(ItemDetailController());
 
-    // controller.getItemDetails(id);
-
-    return Container(
-      color: Color(0xff252B5C),
-      child: SafeArea(
-        child: GetBuilder<DataController>(builder: (value) {
-          return Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                title: Text('Product'),
-                backgroundColor: Color(0xff252B5C),
-                actions: [
-                  ElevatedButton(
+    return product == null
+        ? Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          )
+        : Scaffold(
+            // backgroundColor: Color(0xff252B5C),
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text('${product!.name}'),
+              backgroundColor: Color(0xff252B5C),
+              actions: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff252B5C),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  },
+                  child: Text('Home'),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff252B5C),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProductImagePicker()));
+                  },
+                  child: Text('Add Product'),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff252B5C),
+                  ),
+                  onPressed: () {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => LoginUserProductScreen()));
+                  },
+                  child: Text('Your Product'),
+                ),
+                ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xff252B5C),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomeScreen()));
-                    },
-                    child: Text('Home'),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff252B5C),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductImagePicker()));
-                    },
-                    child: Text('Add Product'),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff252B5C),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginUserProductScreen()));
-                    },
-                    child: Text('Your Product'),
-                  ),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff252B5C),
+                    onPressed: () {},
+                    child: Text('Profile'))
+              ],
+            ),
+            body: SizedBox(
+              height: size.height,
+              width: size.width,
+              child: SingleChildScrollView(
+                child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: size.height / 3.5,
+                        width: size.width,
+                        child: PageView.builder(
+                          //s itemCount: pr.length,
+                          //onPageChanged: controller.changeIndicator,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(product!.img),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                      onPressed: () {},
-                      child: Text('Profile'))
-                ],
-              ),
-              body: SizedBox(
-                height: size.height,
-                width: size.width,
-                child: SingleChildScrollView(
-                  child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: size.height / 3.5,
-                          width: size.width,
-                          child: PageView.builder(
-                            //s itemCount: pr.length,
-                            //onPageChanged: controller.changeIndicator,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(product.img),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+
+                      // indicator
+
+                      SizedBox(
+                        height: size.height / 25,
+                        width: size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // children: [
+                          //   for (int i = 0;
+                          //       i < product.;
+                          //       i++)
+                          //     indicator(size, false)
+                          // ],
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: size.height / 25,
+                      ),
+
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: Text(
+                          product!.name,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
+                      ),
 
-                        // indicator
+                      SizedBox(
+                        height: size.height / 35,
+                      ),
 
-                        SizedBox(
-                          height: size.height / 25,
-                          width: size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            // children: [
-                            //   for (int i = 0;
-                            //       i < product.;
-                            //       i++)
-                            //     indicator(size, false)
-                            // ],
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: size.height / 25,
-                        ),
-
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: Text(
-                            product.name,
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: RichText(
+                          text: TextSpan(
+                            text: "${product!.price}",
                             style: const TextStyle(
-                              fontSize: 24,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: size.height / 35,
-                        ),
-
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: RichText(
-                            text: TextSpan(
-                              text: "${product.price}",
-                              style: const TextStyle(
-                                  fontSize: 19,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  decoration: TextDecoration.lineThrough),
-                              children: [
-                                TextSpan(
-                                  text: " ${product.price}",
-                                  style: TextStyle(
-                                    fontSize: 19,
-                                    color: Colors.grey[800],
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
-                                TextSpan(
-                                  // text: " ${product.price}% off",
-                                  style: const TextStyle(
-                                    fontSize: 19,
-                                    color: Colors.green,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: size.height / 25,
-                        ),
-
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: const Text(
-                            "Description",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: size.height / 50,
-                        ),
-
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: Text(
-                            product.description,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height / 40,
-                        ),
-
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: const Text(
-                            "Location",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: size.height / 80,
-                        ),
-
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: Text(
-                            product.location,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height / 25,
-                        ),
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: const Text(
-                            "Date",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: size.height / 80,
-                        ),
-
-                        SizedBox(
-                          width: size.width / 1.2,
-                          child: Text(
-                            product.date,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        // ListTile(
-                        //   onTap: () {},
-                        //   title: Text("See Reviews"),
-                        //   trailing: Icon(Icons.arrow_forward_ios),
-                        //   leading: Icon(Icons.star),
-                        // ),
-
-                        SizedBox(
-                          height: size.height / 100,
-                        ),
-                        SizedBox(
-                          height: size.height / 14,
-                          width: size.width,
-                          child: Row(
+                                fontSize: 19,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.lineThrough),
                             children: [
-                              Expanded(
-                                child: customButtom(size, () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductOverview(product)));
-                                }, Colors.white, "Buy Now"),
+                              TextSpan(
+                                text: " ${product!.price}",
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.grey[800],
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                // text: " ${product!.price}% off",
+                                style: const TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.green,
+                                  decoration: TextDecoration.none,
+                                ),
                               ),
                             ],
                           ),
-                        )
-                      ]),
-                ),
-              ),
+                        ),
+                      ),
 
-              // bottomNavigationBar: SizedBox(
-              //   height: size.height / 14,
-              //   width: size.width,
-              //   child: Row(
-              //     children: [
-              //       // Expanded(
-              //       //   child: customButtom(
-              //       //     size,
-              //       //     () {
-              //       //       // if (controller.isAlreadyAvailable) {
-              //       //       //   Get.to(() => CartScreen());
-              //       //       // } else {
-              //       //       //   controller.addItemsToCart();
-              //       //       // }
-              //       //     },
-              //       //     Colors.redAccent,
-              //       //     // product.isAlreadyAvailable
-              //       //         ? "Go to Cart"
-              //       //         : "Add to Cart",
-              //       //   ),
-              //       // ),
-              //       Expanded(
-              //         child: customButtom(size, () {
-              //           Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                   builder: (context) => ProductOverview(product)));
-              //         }, Colors.white, "Buy Now"),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              bottomNavigationBar: Container(
-                height: size.height / 14,
-                width: size.width,
-                color: Color.fromARGB(255, 19, 38, 94),
-                child: Row(
-                  children: <Widget>[
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 19, 38, 94)),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Terms()));
-                      },
-                      child: Text(
-                        'Term and Conditions',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        textAlign: TextAlign.center,
+                      SizedBox(
+                        height: size.height / 25,
                       ),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 19, 38, 94)),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Privacy()));
-                      },
-                      child: Text(
-                        'Privacy',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        textAlign: TextAlign.center,
+
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: const Text(
+                          "Description",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 19, 38, 94)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserAgreement()));
-                      },
-                      child: Text(
-                        'User Licence Agreement',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        textAlign: TextAlign.center,
+
+                      SizedBox(
+                        height: size.height / 50,
                       ),
+
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: Text(
+                          product!.description,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height / 40,
+                      ),
+
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: const Text(
+                          "Location",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: size.height / 80,
+                      ),
+
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: Text(
+                          product!.location,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height / 25,
+                      ),
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: const Text(
+                          "Date",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: size.height / 80,
+                      ),
+
+                      SizedBox(
+                        width: size.width / 1.2,
+                        child: Text(
+                          product!.date,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: size.height / 100,
+                      ),
+                      SizedBox(
+                        height: size.height / 14,
+                        width: size.width,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: customButtom(size, () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductOverview(product!)));
+                              }, Colors.white, "Buy Now"),
+                            ),
+                          ],
+                        ),
+                      )
+                    ]),
+              ),
+            ),
+            bottomNavigationBar: Container(
+              height: size.height / 14,
+              width: size.width,
+              color: Color.fromARGB(255, 19, 38, 94),
+              child: Row(
+                children: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 19, 38, 94)),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Terms()));
+                    },
+                    child: Text(
+                      'Term and Conditions',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                      textAlign: TextAlign.center,
                     ),
-                  ],
-                ),
-              ));
-        }),
-      ),
-    );
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 19, 38, 94)),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Privacy()));
+                    },
+                    child: Text(
+                      'Privacy',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 19, 38, 94)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserAgreement()));
+                    },
+                    child: Text(
+                      'User Licence Agreement',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ));
   }
 
   Widget customButtom(Size size, Function function, Color color, String title) {

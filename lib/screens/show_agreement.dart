@@ -65,10 +65,10 @@ class ShowAgreement extends StatelessWidget {
                       backgroundColor: Color(0xff252B5C),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginUserProductScreen()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => LoginUserProductScreen()));
                     },
                     child: Text('Your Product'),
                   ),

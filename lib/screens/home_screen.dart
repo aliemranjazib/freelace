@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:marketplace/app_routes/app_route.dart';
 import 'package:marketplace/model/product_model.dart';
 import 'package:marketplace/screens/TnC.dart';
 import 'package:marketplace/screens/data_controller.dart';
@@ -105,10 +108,11 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProductImagePicker()));
+                  GoRouter.of(context).goNamed(RouteCon.addproduct);
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => ProductImagePicker()));
                 },
                 child: Text('Add Product')),
             TextButton(
@@ -126,82 +130,102 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  GoRouter.of(context).goNamed(RouteCon.profile);
+                },
                 child: Text('Profile')),
           ],
         ),
-        body: GetBuilder<DataController>(
-          builder: (controller) => controller.loginUserData.isEmpty
-              ? Center(
-                  child: Text('😔 NO DATA FOUND PLEASE ADD DATA 😔'),
-                )
-              : ListView.builder(
-                  itemCount: controller.loginUserData.length,
-                  itemBuilder: (context, index) {
-                    Product product = controller.loginUserData[index];
-                    return InkWell(
-                      onTap: () {
-                        controller.loginUserData[index];
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Details(product)));
-                      },
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 300,
-                              width: 400,
-                              // height: MediaQuery.of(context).size.height * 0.35,
-                              // width: MediaQuery.of(context).size.width * 0.3,
-                              child: Image.network(
-                                controller.loginUserData[index].img,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Product Name: ${controller.loginUserData[index].name}",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Price: ${controller.loginUserData[index].price.toString()}',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // ElevatedButton(
-                                  //   onPressed: () {
-                                  //     Navigator.push(
-                                  //         context,
-                                  //         MaterialPageRoute(
-                                  //             builder: (context) =>
-                                  //                 ProductOverview(product)));
-                                  //   },
-                                  //   child: Text(''),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+        body: StreamBuilder(
+          stream:
+              FirebaseFirestore.instance.collection("productData").snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return CircularProgressIndicator();
+            }
+            if (snapshot.data!.docs.length == 0) {
+              return Text("NO DATA");
+            }
+            List<Product> loginUserData = [];
+            snapshot.data!.docs.forEach((result) {
+              loginUserData.add(
+                Product(
+                  productId: result['productId'],
+                  signature: result['signature'],
+                  userId: result['user_Id'],
+                  name: result['name'],
+                  price: result['price'],
+                  img: result['img'],
+                  description: result['description'],
+                  location: result['location'],
+                  date: result['date'],
                 ),
+              );
+            });
+            return ListView.builder(
+              itemCount: 1,
+              itemBuilder: (BuildContext context, int index) {
+                // Product product = snapshot.data!.docs[index];
+                return InkWell(
+                  onTap: () {
+                    GoRouter.of(context).goNamed(RouteCon.productdetail,
+                        params: {"productId": loginUserData[index].productId});
+                  },
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 300,
+                          width: 400,
+                          // height: MediaQuery.of(context).size.height * 0.35,
+                          // width: MediaQuery.of(context).size.width * 0.3,
+                          child: Image.network(
+                            loginUserData[index].img,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Product Name: ${loginUserData[index].name}",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Price: ${loginUserData[index].price.toString()}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // ElevatedButton(
+                              //   onPressed: () {
+                              //     Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) =>
+                              //                 ProductOverview(product)));
+                              //   },
+                              //   child: Text(''),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
         ),
         bottomNavigationBar: Container(
           height: size.height / 14,
