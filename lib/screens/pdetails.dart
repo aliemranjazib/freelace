@@ -313,11 +313,14 @@ class _DetailState extends State<Detail> {
                           children: [
                             Expanded(
                               child: customButtom(size, () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProductOverview(product!)));
+                                GoRouter.of(context).pushNamed(
+                                    RouteCon.productoverview,
+                                    extra: product!);
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             ProductOverview(product!)));
                               }, Colors.white, "Buy Now"),
                             ),
                           ],
@@ -327,8 +330,7 @@ class _DetailState extends State<Detail> {
                           onPressed: () {
                             var url = window.location.href;
                             print(url);
-                            Share.share(
-                                'https://aliemranjazib.github.io/freelace/#/productdetail/view/d92e5929-6bf3-426f-b84e-dceaf0078d27');
+                            Share.share(url);
                           },
                           child: Text("Share Product"))
                     ]),

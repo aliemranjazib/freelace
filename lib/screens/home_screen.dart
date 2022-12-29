@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
               );
             });
             return ListView.builder(
-              itemCount: 1,
+              itemCount: snapshot.data!.docs.length,
               itemBuilder: (BuildContext context, int index) {
                 // Product product = snapshot.data!.docs[index];
                 return InkWell(

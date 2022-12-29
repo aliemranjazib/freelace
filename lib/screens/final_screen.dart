@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:marketplace/app_routes/app_route.dart';
 import 'package:marketplace/model/Agreement.dart';
 import 'package:marketplace/model/product_model.dart';
 import 'package:marketplace/screens/TnC.dart';
@@ -110,11 +112,8 @@ class FinalScreen extends StatelessWidget {
                     return InkWell(
                       onTap: () {
                         controller.loginAgreementData[index];
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ShowAgreement(agreement)));
+                        GoRouter.of(context).pushNamed(RouteCon.showagreement,
+                            extra: agreement);
                       },
                       child: Card(
                         child: Column(

@@ -44,6 +44,10 @@ dependencies:
   pdf: ^3.8.4
   peanut: ^4.3.0
   share_plus: ^6.3.0
+  flutter_html_to_pdf: ^0.7.0
+  flutter_html: ^0.11.1
+  syncfusion_flutter_pdfviewer: ^20.4.38
+  image_network: ^2.5.1
 
 
 dev_dependencies:

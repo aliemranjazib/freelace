@@ -6,6 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:marketplace/app_routes/app_route.dart';
 import 'package:marketplace/model/Agreement.dart';
 import 'package:marketplace/model/product_model.dart';
 import 'package:marketplace/screens/app_colors.dart';
@@ -24,6 +26,7 @@ enum SingingCharacter { directDeposit, etransfer }
 
 class ProductOverview extends StatefulWidget {
   late final Product product;
+  late final String pId;
   late final Agreement agreement;
   ProductOverview(this.product, {super.key});
 
@@ -102,8 +105,9 @@ class _ProductOverviewState extends State<ProductOverview>
       setState(() {
         isLoading = false;
       });
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: ((context) => FinalScreen())));
+      GoRouter.of(context).pushNamed(RouteCon.finalscreen);
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(builder: ((context) => FinalScreen())));
     });
 
     return Future.value(uploadTask);

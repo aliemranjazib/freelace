@@ -1,41 +1,13 @@
-2022/12/28-23:33:43.070 8f4 Reusing MANIFEST C:\Users\jazib\AppData\Local\Temp\flutter_tools.718ae13d\flutter_tools_chrome_device.99dd217f\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/MANIFEST-000001
-2022/12/28-23:33:43.071 8f4 Recovering log #299
-2022/12/28-23:33:43.071 8f4 Reusing old log C:\Users\jazib\AppData\Local\Temp\flutter_tools.718ae13d\flutter_tools_chrome_device.99dd217f\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/000299.log 
-2022/12/28-23:33:43.071 8f4 Delete type=0 #24
-2022/12/28-23:33:43.071 8f4 Delete type=2 #27
-2022/12/28-23:33:43.071 8f4 Delete type=2 #31
-2022/12/28-23:33:43.071 8f4 Delete type=2 #42
-2022/12/28-23:33:43.071 8f4 Delete type=0 #44
-2022/12/28-23:33:43.071 8f4 Delete type=2 #46
-2022/12/28-23:33:43.071 8f4 Delete type=2 #78
-2022/12/28-23:33:43.071 8f4 Delete type=0 #115
-2022/12/28-23:33:43.071 8f4 Delete type=2 #117
-2022/12/28-23:33:43.071 8f4 Delete type=0 #131
-2022/12/28-23:33:43.071 8f4 Delete type=2 #133
-2022/12/28-23:33:43.071 8f4 Delete type=0 #135
-2022/12/28-23:33:43.071 8f4 Delete type=2 #137
-2022/12/28-23:33:43.071 8f4 Delete type=2 #157
-2022/12/28-23:33:43.071 8f4 Delete type=0 #159
-2022/12/28-23:33:43.071 8f4 Delete type=2 #161
-2022/12/28-23:33:43.071 8f4 Delete type=0 #163
-2022/12/28-23:33:43.071 8f4 Delete type=2 #165
-2022/12/28-23:33:43.071 8f4 Delete type=0 #171
-2022/12/28-23:33:43.071 8f4 Delete type=2 #174
-2022/12/28-23:33:43.071 8f4 Delete type=0 #180
-2022/12/28-23:33:43.071 8f4 Delete type=2 #181
-2022/12/28-23:33:43.072 8f4 Delete type=0 #223
-2022/12/28-23:33:43.072 8f4 Delete type=2 #225
-2022/12/28-23:33:43.072 8f4 Delete type=2 #241
-2022/12/28-23:33:43.072 8f4 Delete type=0 #243
-2022/12/28-23:33:43.072 8f4 Delete type=2 #245
-2022/12/28-23:33:43.072 8f4 Delete type=2 #297
-2022/12/28-23:33:43.098 6ac Level-0 table #304: started
-2022/12/28-23:33:43.113 6ac Level-0 table #304: 3196 bytes OK
-2022/12/28-23:33:43.121 6ac Delete type=0 #299
-2022/12/28-23:33:43.121 6ac Manual compaction at level-0 from '\x00s\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00t\x00\x00\x00' @ 0 : 0; will stop at '\x00s\x00\x00\x05' @ 5261 : 1
-2022/12/28-23:33:43.121 6ac Compacting 1@0 + 1@1 files
-2022/12/28-23:33:43.127 6ac Generated table #305@0: 32 keys, 2660 bytes
-2022/12/28-23:33:43.127 6ac Compacted 1@0 + 1@1 files => 2660 bytes
-2022/12/28-23:33:43.131 6ac compacted to: files[ 0 1 1 0 0 0 0 ]
-2022/12/28-23:33:43.131 6ac Delete type=2 #304
-2022/12/28-23:33:43.132 6ac Manual compaction at level-0 from '\x00s\x00\x00\x05' @ 5261 : 1 .. '\x00t\x00\x00\x00' @ 0 : 0; will stop at (end)
+2022/12/29-21:50:04.510 1194 Reusing MANIFEST C:\Users\jazib\AppData\Local\Temp\flutter_tools.6297d677\flutter_tools_chrome_device.6b035ca\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/MANIFEST-000001
+2022/12/29-21:50:04.510 1194 Recovering log #4
+2022/12/29-21:50:04.511 1194 Reusing old log C:\Users\jazib\AppData\Local\Temp\flutter_tools.6297d677\flutter_tools_chrome_device.6b035ca\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/000004.log 
+2022/12/29-21:50:04.529 1204 Level-0 table #8: started
+2022/12/29-21:50:04.547 1204 Level-0 table #8: 4549 bytes OK
+2022/12/29-21:50:04.563 1204 Delete type=0 #4
+2022/12/29-21:50:04.565 1204 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2022/12/29-21:50:54.195 f8c Compacting 1@1 + 1@2 files
+2022/12/29-21:50:54.200 f8c Generated table #9@1: 41 keys, 2873 bytes
+2022/12/29-21:50:54.200 f8c Compacted 1@1 + 1@2 files => 2873 bytes
+2022/12/29-21:50:54.207 f8c compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/12/29-21:50:54.207 f8c Delete type=2 #5
+2022/12/29-21:50:54.207 f8c Delete type=2 #8

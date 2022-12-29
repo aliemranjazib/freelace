@@ -40,23 +40,47 @@ class SaveBtnBuilder extends StatelessWidget {
   }
 
   Future<void> printDoc() async {
-    final image = await imageFromAssetBundle(
-      "assets/images/eagree.png",
+    final image =
+        await imageFromAssetBundle("assets/images/eagree.png", cache: true);
+    final image1 = await networkImage(
+      agreement.signature,
+      cache: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials":
+            'true', // Required for cookies, authorization headers with HTTPS
+        "Access-Control-Allow-Headers":
+            "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+        "Access-Control-Allow-Methods": "POST, OPTIONS"
+      },
+    );
+    final image2 = await networkImage(
+      agreement.client_signature,
+      cache: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials":
+            'true', // Required for cookies, authorization headers with HTTPS
+        "Access-Control-Allow-Headers":
+            "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+        "Access-Control-Allow-Methods": "POST, OPTIONS"
+      },
     );
     // final image = await networkImage(agreement.img);
     // final image = ImageProvider(agreement.img);
-    image:
+
     final doc = pw.Document();
+
     doc.addPage(pw.Page(
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
-          return buildPrintableData(image);
+          return buildPrintableData(image, image1, image2);
         }));
     await Printing.layoutPdf(
         onLayout: (PdfPageFormat format) async => doc.save());
   }
 
-  buildPrintableData(image) => pw.Padding(
+  buildPrintableData(image, imag1, image2) => pw.Padding(
         padding: const pw.EdgeInsets.all(25.00),
         child: pw.Column(children: [
           pw.Text(" Agreement",
@@ -65,13 +89,24 @@ class SaveBtnBuilder extends StatelessWidget {
           pw.SizedBox(height: 10.00),
           pw.Divider(),
           pw.Align(
-            alignment: pw.Alignment.topRight,
-            child: pw.Image(
-              image,
-              width: 100,
-              height: 100,
-            ),
-          ),
+              alignment: pw.Alignment.topRight,
+              child: pw.Row(children: [
+                pw.Image(
+                  image,
+                  width: 100,
+                  height: 100,
+                ),
+                pw.Image(
+                  imag1,
+                  width: 100,
+                  height: 100,
+                ),
+                pw.Image(
+                  image2,
+                  width: 100,
+                  height: 100,
+                ),
+              ])),
           pw.Column(
             children: [
               pw.Row(
