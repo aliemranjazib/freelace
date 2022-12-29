@@ -1,13 +1,9 @@
-2022/12/29-21:51:58.623 60f8 Reusing MANIFEST C:\Users\jazib\AppData\Local\Temp\flutter_tools.102aaf3\flutter_tools_chrome_device.6dbf937e\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/MANIFEST-000001
-2022/12/29-21:51:58.623 60f8 Recovering log #7
-2022/12/29-21:51:58.623 60f8 Reusing old log C:\Users\jazib\AppData\Local\Temp\flutter_tools.102aaf3\flutter_tools_chrome_device.6dbf937e\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/000007.log 
-2022/12/29-21:51:58.647 60f8 Level-0 table #12: started
-2022/12/29-21:51:58.655 60f8 Level-0 table #12: 3203 bytes OK
-2022/12/29-21:51:58.670 60f8 Delete type=0 #7
-2022/12/29-21:51:58.675 60f8 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
-2022/12/29-21:52:44.285 4b18 Compacting 1@1 + 1@2 files
-2022/12/29-21:52:44.289 4b18 Generated table #13@1: 40 keys, 2850 bytes
-2022/12/29-21:52:44.289 4b18 Compacted 1@1 + 1@2 files => 2850 bytes
-2022/12/29-21:52:44.297 4b18 compacted to: files[ 0 0 1 0 0 0 0 ]
-2022/12/29-21:52:44.297 4b18 Delete type=2 #9
-2022/12/29-21:52:44.297 4b18 Delete type=2 #12
+2022/12/29-21:57:31.849 5014 Reusing MANIFEST C:\Users\jazib\AppData\Local\Temp\flutter_tools.a371ed35\flutter_tools_chrome_device.9b706582\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/MANIFEST-000001
+2022/12/29-21:57:31.849 5014 Recovering log #11
+2022/12/29-21:57:31.850 5014 Reusing old log C:\Users\jazib\AppData\Local\Temp\flutter_tools.a371ed35\flutter_tools_chrome_device.9b706582\Default\IndexedDB\http_localhost_8000.indexeddb.leveldb/000011.log 
+2022/12/29-21:57:31.850 5014 Delete type=0 #7
+2022/12/29-21:57:31.850 5014 Delete type=2 #9
+2022/12/29-21:57:31.867 5e4c Level-0 table #16: started
+2022/12/29-21:57:31.875 5e4c Level-0 table #16: 3181 bytes OK
+2022/12/29-21:57:31.886 5e4c Delete type=0 #11
+2022/12/29-21:57:31.886 5e4c Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
