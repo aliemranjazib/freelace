@@ -91434,9 +91434,8 @@ s.toString
 return new A.rM(s,null)},
 $S:552}
 A.auf.prototype={
-$0(){var s=window.location.href
-A.bP(s)
-$.aR1().Zy(0,s,null,null)},
+$0(){A.bP(window.location.href)
+$.aR1().Zy(0,"https://aliemranjazib.github.io/freelace/#/productdetail/view/d92e5929-6bf3-426f-b84e-dceaf0078d27",null,null)},
 $S:0}
 A.aug.prototype={
 $0(){var s=A.ce(new A.au7(),null,t.z)
