@@ -327,7 +327,8 @@ class _DetailState extends State<Detail> {
                           onPressed: () {
                             var url = window.location.href;
                             print(url);
-                            Share.share('$url');
+                            Share.share(
+                                'https://aliemranjazib.github.io/freelace/#/productdetail/view/d92e5929-6bf3-426f-b84e-dceaf0078d27');
                           },
                           child: Text("Share Product"))
                     ]),
